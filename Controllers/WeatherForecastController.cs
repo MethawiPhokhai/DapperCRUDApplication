@@ -23,7 +23,7 @@ namespace DapperCRUDApplication.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
+        [HttpGet("get")]
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();
