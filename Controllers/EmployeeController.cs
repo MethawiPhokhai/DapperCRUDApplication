@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DapperCRUDApplication.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -13,10 +14,13 @@ namespace DapperCRUDApplication.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IEmployeeService _employeeService;
 
-        public EmployeeController(ILogger<WeatherForecastController> logger)
+        public EmployeeController(ILogger<WeatherForecastController> logger,
+            IEmployeeService employeeService)
         {
             _logger = logger;
+            _employeeService = employeeService;
         }
 
 
@@ -27,9 +31,10 @@ namespace DapperCRUDApplication.Controllers
         }
 
         [HttpGet("get/all")]
-        public ActionResult GetAll(int id)
+        public ActionResult GetAll()
         {
-            return Ok();
+            var res = _employeeService.GetAll();
+            return Ok(res);
         }
 
         [HttpPost("create")]
