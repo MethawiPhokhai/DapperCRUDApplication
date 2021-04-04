@@ -27,7 +27,8 @@ namespace DapperCRUDApplication.Controllers
         [HttpGet("get")]
         public ActionResult Get(int id)
         {
-            return Ok();
+            var res = _employeeService.Get(id);
+            return Ok(res);
         }
 
         [HttpGet("get/all")]
