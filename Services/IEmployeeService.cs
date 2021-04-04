@@ -9,5 +9,6 @@ namespace DapperCRUDApplication.Services
     public interface IEmployeeService
     {
         public IEnumerable<Employee> GetAll();
+        public Task<Employee> Get(int id);
     }
 }
