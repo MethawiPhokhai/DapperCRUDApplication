@@ -29,7 +29,6 @@ namespace DapperCRUDApplication.Services
             {
                 const string getQuery = "SELECT * FROM Employees WHERE EmployeeId = @employeeId";
                 return await db.QuerySingleAsync<Employee>(getQuery, new { id });
-
             }
         }
     }
