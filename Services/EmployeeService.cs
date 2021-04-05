@@ -11,9 +11,7 @@ namespace DapperCRUDApplication.Services
 {
     public class EmployeeService : IEmployeeService
     {
-        private SqlConnection _sqlConnection;
         private readonly IDbConnection _dbConnection;
-
 
         public EmployeeService(IDbConnection dbConnection)
         {
