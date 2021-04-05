@@ -1,4 +1,5 @@
-﻿using DapperCRUDApplication.Services;
+﻿using DapperCRUDApplication.Context;
+using DapperCRUDApplication.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -13,69 +14,49 @@ namespace DapperCRUDApplication.Controllers
     [Route("[controller]")]
     public class EmployeeController : ControllerBase
     {
-        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ILogger<EmployeeController> _logger;
         private readonly IEmployeeService _employeeService;
 
-        public EmployeeController(ILogger<WeatherForecastController> logger,
+        public EmployeeController(ILogger<EmployeeController> logger,
             IEmployeeService employeeService)
         {
             _logger = logger;
             _employeeService = employeeService;
         }
 
+        [HttpGet("get/all")]
+        public async Task<ActionResult> GetAll()
+        {
+            var res = await _employeeService.GetAll();
+            return Ok(res);
+        }
 
         [HttpGet("get")]
-        public ActionResult Get(int id)
+        public async Task<ActionResult> Get(int employeeId)
         {
-            var res = _employeeService.Get(id);
+            var res = await _employeeService.Get(employeeId);
             return Ok(res);
         }
 
-        [HttpGet("get/all")]
-        public ActionResult GetAll()
+        [HttpPost("add")]
+        public async Task<ActionResult> Add(Employee employee)
         {
-            var res = _employeeService.GetAll();
+            var res = await _employeeService.AddAsync(employee);
             return Ok(res);
         }
 
-        [HttpPost("create")]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        [HttpPost("update")]
+        public async Task<ActionResult> Update(Employee employee)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return Ok();
-            }
-        }
-
-        [HttpPost("edit")]
-        public ActionResult Edit(int id)
-        {
-            return Ok();
-        }
-
-        [HttpPost("edit/all")]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return Ok();
-            }
+            var res = await _employeeService.UpdateAsync(employee);
+            return Ok(res);
         }
 
         [HttpPost("delete")]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int employeeId)
         {
-            return Ok();
+            var data = await _employeeService.DeleteAsync(employeeId);
+            return Ok(data);
         }
 
     }

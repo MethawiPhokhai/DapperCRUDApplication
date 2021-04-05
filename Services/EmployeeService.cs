@@ -17,18 +17,36 @@ namespace DapperCRUDApplication.Services
         {
             _dbConnection = dbConnection;
         }
-        public IEnumerable<Employee> GetAll()
+        public async Task<IEnumerable<Employee>> GetAll()
         {
-            return _dbConnection.GetAllAsync<Employee>().Result;
+            return await _dbConnection.GetAllAsync<Employee>();
         }
 
-        public async Task<Employee> Get(int id)
+        public async Task<Employee> Get(int employeeId)
         {
-            using (IDbConnection db = _dbConnection)
-            {
-                const string getQuery = "SELECT * FROM Employees WHERE EmployeeId = @employeeId";
-                return await db.QuerySingleAsync<Employee>(getQuery, new { id });
-            }
+            const string getQuery = "SELECT * FROM Employees WHERE EmployeeId = @employeeId";
+            return await _dbConnection.QuerySingleAsync<Employee>(getQuery, new { employeeId = employeeId });
+        }
+
+        public async Task<int> AddAsync(Employee employee)
+        {
+            var sql = "Insert into Employees (Name,Address,CompanyName,Designation) VALUES (@Name,@Address,@CompanyName,@Designation)";
+            var result = await _dbConnection.ExecuteAsync(sql, employee);
+            return result;
+        }
+
+        public async Task<int> UpdateAsync(Employee employee)
+        {
+            var sql = "UPDATE Employees SET Name = @Name, Address = @Address, CompanyName = @CompanyName, Designation = @Designation WHERE EmployeeId = @EmployeeId";
+            var result = await _dbConnection.ExecuteAsync(sql, employee);
+            return result;
+        }
+
+        public async Task<int> DeleteAsync(int employeeId)
+        {
+            var sql = "DELETE FROM Employees WHERE EmployeeId = @EmployeeId";
+            var result = await _dbConnection.ExecuteAsync(sql, new { EmployeeId = employeeId });
+            return result;
         }
     }
 }
