@@ -2,11 +2,13 @@ using DapperCRUDApplication.Context;
 using DapperCRUDApplication.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System.Data;
 
 namespace DapperCRUDApplication
 {
@@ -22,15 +24,20 @@ namespace DapperCRUDApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DapperCRUDApplication", Version = "v1" });
             });
             services.AddMvc();
-            services.AddDbContext<EmployeeDbContext>(item => item.UseSqlServer(Configuration.GetConnectionString("DapperConn")));
 
+            string dbConnectionString = Configuration.GetConnectionString("DapperConn");
+            //EF Core
+            services.AddDbContext<EmployeeDbContext>(item => item.UseSqlServer(dbConnectionString));
+            //Dapper
+            services.AddTransient<IDbConnection>((sp) => new SqlConnection(dbConnectionString));
+
+            //Register Services
             services.AddScoped<IEmployeeService, EmployeeService>();
         }
 

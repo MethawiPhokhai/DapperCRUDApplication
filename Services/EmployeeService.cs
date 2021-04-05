@@ -12,20 +12,21 @@ namespace DapperCRUDApplication.Services
     public class EmployeeService : IEmployeeService
     {
         private SqlConnection _sqlConnection;
-        public IConfiguration Configuration { get; }
+        private readonly IDbConnection _dbConnection;
 
-        public EmployeeService(IConfiguration Configuration)
+
+        public EmployeeService(IDbConnection dbConnection)
         {
-            _sqlConnection = new SqlConnection(Configuration.GetConnectionString("DapperConn"));
+            _dbConnection = dbConnection;
         }
         public IEnumerable<Employee> GetAll()
         {
-            return _sqlConnection.GetAllAsync<Employee>().Result;
+            return _dbConnection.GetAllAsync<Employee>().Result;
         }
 
         public async Task<Employee> Get(int id)
         {
-            using (IDbConnection db = _sqlConnection)
+            using (IDbConnection db = _dbConnection)
             {
                 const string getQuery = "SELECT * FROM Employees WHERE EmployeeId = @employeeId";
                 return await db.QuerySingleAsync<Employee>(getQuery, new { id });
