@@ -1,12 +1,8 @@
-﻿using DapperCRUDApplication.Context;
+﻿using System.Threading.Tasks;
+using DapperCRUDApplication.Context;
 using DapperCRUDApplication.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DapperCRUDApplication.Controllers
 {
