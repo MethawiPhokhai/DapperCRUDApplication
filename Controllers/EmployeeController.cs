@@ -8,6 +8,7 @@ namespace DapperCRUDApplication.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [AutoValidateAntiforgeryToken]
     public class EmployeeController : ControllerBase
     {
         private readonly ILogger<EmployeeController> _logger;
