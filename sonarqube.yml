@@ -36,8 +36,8 @@ jobs:
 
       - name: Run SonarQube Scanner
         env:
-          SONAR_HOST_URL: https://sonarcloud.io/
-          SONAR_LOGIN: 7204df21ee3b30efa68760ba70f185bddd8045ee
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_LOGIN: ${{ secrets.SONAR_TOKEN }}
         run: |
           sonar-scanner \
             -Dsonar.projectKey=my_project_key \
