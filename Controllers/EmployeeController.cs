@@ -11,13 +11,10 @@ namespace DapperCRUDApplication.Controllers
     [AutoValidateAntiforgeryToken]
     public class EmployeeController : ControllerBase
     {
-        private readonly ILogger<EmployeeController> _logger;
         private readonly IEmployeeService _employeeService;
 
-        public EmployeeController(ILogger<EmployeeController> logger,
-            IEmployeeService employeeService)
+        public EmployeeController(IEmployeeService employeeService)
         {
-            _logger = logger;
             _employeeService = employeeService;
         }
 
